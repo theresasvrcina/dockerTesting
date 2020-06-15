@@ -1,0 +1,11 @@
+# Use the MySQL relational database management system image from Dockerhub.com
+# The image is maintianed by the Docker and MySQL communities. 
+
+FROM mysql:latest 
+
+
+EXPOSE 3306
+
+LABEL version=DB_Testing1.0
+
+#convert this later, to a .yml file for docker-compose features. 

@@ -1,0 +1,8 @@
+# use Nginx as a proxy
+FROM nginx:latest
+
+
+EXPOSE 80
+
+LABEL testing="multiple_Services1.0"
+

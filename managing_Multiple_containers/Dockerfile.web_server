@@ -1,0 +1,8 @@
+# Use the Apache Web Server 
+FROM httpd:latest 
+
+
+EXPOSE 80
+
+
+#convert these into a .yml file for docker-compose features. 
