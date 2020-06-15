@@ -1,0 +1,17 @@
+Within a shell build your Dockerfile. 
+
+The command to use is
+
+$ docker build .
+
+Then run your container. 
+
+$ docker container run --publish 80:80 <containerID>
+
+ Check the logs from the container.
+ 
+ $ docker logs <containerID>
+ 
+ Remove the container.
+ 
+ $ docker container rm <containerID> 
