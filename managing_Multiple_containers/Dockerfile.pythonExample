@@ -1,0 +1,19 @@
+# This image is based on an Alpine Linux Image 
+FROM python:3
+
+# Set the working directory for the container's actions
+WORKDIR /myPythonExample
+
+# Work with free datasets for Data Scientists and Machine Learning Engineers
+RUN pip install kaggle 
+
+# Let's play with Temperature Data
+RUN kaggle datasets download -d sudalairajkumar/daily-temperature-of-major-cities
+
+# List the files to check if we downloaded the Temperature Data 
+RUN ls 
+
+LABEL ML="1.0Test"
+
+# Need to use the -e flag to authenticate into Kaggle.com on 
+#   container build time. 
