@@ -1,6 +1,12 @@
 # Use the Apache Web Server 
 FROM httpd:latest 
 
+# Giving my container a directory 
+WORKDIR /files
+
+# Add a file into it's directory 
+COPY simplePage.html /files 
+
 
 EXPOSE 80
 
