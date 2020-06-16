@@ -1,14 +1,12 @@
-# Use the Apache Web Server 
-FROM httpd:latest 
+# Use the Nginx Web Server 
+FROM nginx:latest 
 
 # Giving my container a directory 
-WORKDIR /files
+WORKDIR /files/html
 
 # Add a file into it's directory 
-COPY simplePage.html /files 
+COPY simplePage.html /files/html/
 
-
+# The port this container can be connected to
 EXPOSE 80
-
-
 #convert these into a .yml file for docker-compose features. 

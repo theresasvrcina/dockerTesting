@@ -1,9 +1,9 @@
 At build time specify the Dockerfile you would like
   to build with the -f flag. 
 
-$ docker build --tag <nameYourContainer> --file <Dockerfile.example> .
+$ docker image build --tag <nameYourContainer> --file <Dockerfile.example> .
 
 The short hand of the above command below is 
 
-$ docker build -t <nameYourContainer> -f <Dockerfile.example> .
+$ docker image build -t <nameYourContainer> -f <Dockerfile.example> .
 
