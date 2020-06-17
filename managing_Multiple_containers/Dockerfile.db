@@ -8,4 +8,6 @@ EXPOSE 3306
 
 LABEL version=DB_Testing1.0
 
-#convert this later, to a .yml file for docker-compose features. 
+#convert into a .yml file for docker-compose features. 
+
+# Use "-e" flag to pass in authentication at container run time

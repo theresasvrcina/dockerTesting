@@ -1,11 +1,11 @@
 # Use the Nginx Web Server 
 FROM nginx:latest 
 
-# Giving my container a directory 
-WORKDIR /files/html
+# Giving the container a place to hold Web Dev software
+WORKDIR /user/share/nginx/html
 
-# Add a file into it's directory 
-COPY simplePage.html /files/html/
+# Add a file into it's html folder
+COPY simplePage.html simplePage.html
 
 # The port this container can be connected to
 EXPOSE 80
