@@ -16,4 +16,4 @@ RUN ls
 LABEL ML="1.0Test"
 
 # Need to use the -e flag to authenticate into Kaggle.com on 
-#   container build time. 
+#   container run time. 
