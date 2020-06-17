@@ -1,0 +1,26 @@
+After building many images and containers. Cleaning up is very important, so that you can reclaim that memory space. 
+
+In Docker it's called pruning. 
+
+A few commands to use after building and running containers is ...
+
+$ docker image prune 
+
+The above command cleans up images that are lying around in your computer's memory. 
+
+$ docker system prune 
+
+The above command will clean up all of it, but will prompt you if you are sure or not (that's really nice).
+
+One of my favorite commands while using Docker for clean up purposes is the below.
+
+$ docker image prune -a 
+
+It removies the images I am not using. 
+
+Another one of my favorites is ...
+
+$ docker system df 
+
+This lets me see the amount of memory space Docker is using on my computer. 
+
