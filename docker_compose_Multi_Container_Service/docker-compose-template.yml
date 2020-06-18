@@ -1,0 +1,18 @@
+# The purpose of the docker-compose YAML file is to automate your docker run commands 
+# The docker-compose file has the plural nouns such as- services, volumes, networks, volumes, and ports. 
+# On the Docker-compose documentation page, it will have more key: value options you can have in your YAML Docker file. 
+
+version: '3.1'  # Declare version of your YAML file first
+
+services:  # The container names. Similar to what you specify at the docker run commands.
+  servicename: # Name of service, you can give it your own name. This will also be the DNS name inside the Docker network.
+    image: # The image name on Dockerhub or your own image. 
+    command: # Optional, replace the default CMD specified by the image
+    environment: # Optional, same as -e in   $ docker run -e
+    volumes: # Optional, same as -v in   $ docker run -v
+    ports: # The ports 
+  servicename2:  # if having multiple services, they will need unique names 
+
+volumes: # Optional, same as  $ docker volume create
+
+networks: # Optional, same as  $ docker network create

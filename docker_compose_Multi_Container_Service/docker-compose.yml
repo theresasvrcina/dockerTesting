@@ -1,1 +1,25 @@
+# This YAML example file is building a service utilzing a web content management platform such as Drupal
+#   to connect to your PostgreSQL database. 
+# YAML files for Docker needs the containers, networks and volumes specified in key: value formats. 
+# YAML files with docker is used for local machine development and in production with Swarm.
+
+
+# Give the version of the YAML file 
+# YAML files are hierarchical and compile top down 
 version: '3'
+
+# This is plural so that you can build many images at once 
+services: 
+  drupal_service:
+    image: drupal   # The image of the service found on Dockerhub.com or you can use your own image here.  
+    build: .  # the dot means, the image is in your current directory, if it's not, give the file path instead
+    ports: 
+        -"8080:80"    # "your listening port: container's listening port"
+    volumes:
+        #The below volumes was from the Drupal documentation on their site to learn how to bind mount the volumes
+        # In the container, and Dockerfile the value of each key below is the WORKDIR in the Dockerfile image
+        # syntax below is key : path in container usually the WORKDIR 
+        - drupal-modules:/var/www/html/modules
+        - drupal-profiles:/var/www/html/profiles       
+        - drupal-sites:/var/www/html/sites      
+        - drupal-themes:/var/www/html/themes
