@@ -35,7 +35,7 @@ services:
       - drupal-data:/var/lib/postgresql/data
 
 # The below volumes is for all the services in this configuration file once all services are running
-# this is where you can declare where to store the data. key : value (value is where you put your file path)
+# this is where you can declare where to store the volume files. key : value (value is where you put your file path)
 # Docker-compose volumes also has documentation in Docker hub. 
 volumes:
     drupal-data:
