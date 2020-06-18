@@ -10,12 +10,12 @@ version: '3'
 
 # This is plural so that you can build many images at once 
 services: 
-  drupal_service:
+  drupal:
     image: drupal   # The image of the service found on Dockerhub.com or you can use your own image here.  
     build: .  # the dot means, the image is in your current directory, if it's not, give the file path instead
     ports: 
         #The separate services will connect to the ports listed to this Docker virtual network.
-        -"8080:80"    # "your listening port: container's listening port". 
+        - "8080:80"    # "your listening port: container's listening port". 
     volumes:
         #The below volumes was from the Drupal documentation on their site to learn how to bind mount the volumes
         # In the container, and Dockerfile the value of each key below is the WORKDIR in the Dockerfile image
@@ -27,12 +27,12 @@ services:
 
 # Keep an eye out on your spacing as you build each service, it's like Python almost. Picky spacing -- parse-tongue
 
-    postgres_service:
-      image: postres:12.3
-      environment: 
-        - POSTGRES_PASSWORD=
-      volumes:
-        - drupal-data:/var/lib/postgresql/data
+  postgres:
+    image: postgres:12.3
+    environment: 
+      - POSTGRES_PASSWORD=
+    volumes:
+      - drupal-data:/var/lib/postgresql/data
 
 # The below volumes is for all the services in this configuration file once all services are running
 # this is where you can declare where to store the data. key : value (value is where you put your file path)
