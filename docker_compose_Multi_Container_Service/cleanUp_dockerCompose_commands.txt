@@ -15,7 +15,7 @@ The above command will delete all of the volumes that were declared in the volum
 
 To remove all of the images that were built for the container services to work. 
   Using the "all" parameter for the --rmi flag, double think to use all or local parameter instead. 
-   
+
 $ docker-compose down --rmi all 
 
 or 
