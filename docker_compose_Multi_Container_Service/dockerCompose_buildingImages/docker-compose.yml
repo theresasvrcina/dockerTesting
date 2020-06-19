@@ -1,0 +1,25 @@
+# Build your images (Dockerfiles) in your docker-compose.yml file 
+
+
+# Important note: When composing the YAML file for the container services
+#  it reads image keyword before build keyword.  If the image value is not
+#  found on Dockerhub.com or in your image cache it will then execute everything under the build keyword. 
+#  To build that custom image for you.
+
+version: '3'
+
+services: 
+    proxy:
+        build:
+            context: . # The period represents "located in this directory"
+            dockerfile: nginx.Dockerfile   # The Dockerfile name, (the custom image), you want to compose (build)
+        image: nginx-example
+        ports: 
+            - '80:80'
+    web:
+        image: httpd  # offical image from Dockerhub 
+        volumes: 
+            # where in your local machine : where in the appache container to have it mounted in 
+            - ./html:/usr/local/apache2/htdocs/
+
+
