@@ -1,0 +1,29 @@
+To compose the Docker Orchestration of the multi service YAML file. 
+
+$ docker-compose up
+
+To end the services
+
+$ docker-compose down 
+
+Cleaning up the volumes
+
+$ docker-compose down -v 
+
+The above command will delete all of the volumes that were declared in the volumes 
+  section in the docker-compose YAML file, as well as any other files attached to the container. 
+
+To remove all of the images that were built for the container services to work. 
+  Using the "all" parameter for the --rmi flag, double think to use all or local parameter instead. 
+   
+$ docker-compose down --rmi all 
+
+or 
+
+$ docker-compose down --rmi local 
+
+The local parameter for the --rmi flag will only remove images that don't have a custom tag. 
+
+
+
+
