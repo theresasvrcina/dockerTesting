@@ -19,7 +19,7 @@ services:
     web:
         image: httpd  # offical image from Dockerhub 
         volumes: 
-            # where in your local machine : where in the appache container to have it mounted in 
+            # what files to mount from local machine : Into the container, filepath to mount the files  (httpd container)
             - ./html:/usr/local/apache2/htdocs/
 
 
