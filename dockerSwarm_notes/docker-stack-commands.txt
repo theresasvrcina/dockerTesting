@@ -1,0 +1,47 @@
+To start the YAML file for the Docker Stack of Services
+
+$ docker stack deploy -c <YAML file name> <give the service a name>
+
+example
+
+$ docker stack deploy -c my-docker-stack.yml votingapp
+
+The "-c" flag stands for compose: Remember docker swarm stack commands ignore the build commands, there
+should be no build commands in a stack YAML file for Docker Stacks. 
+The keyword rather is "deploy" in the Docker Stack YAML file. 
+(In docker-compose files it does build.) But for Swarm, that's a no no. 
+
+After deploying the stack that hosts the service, in this case its a voting application
+
+run 
+$ docker stack ls 
+
+The command above will list the services that you deploy 
+
+$ docker stack ps <The name you gave it at deploy>
+
+This command will show what node is running what task. 
+
+$ docker stack services <the deploy name you gave>
+
+This command will show the replicas you have of containers 
+
+
+To get the full picture of what the entire application is running
+$ docker stack services <deployname>
+$ docker stack ps <deployname>
+
+
+Dive into the networking of the application 
+
+run   $ docker network ls 
+
+If you change something in the stack YAML file
+run the $ docker stack deploy -c my-docker-stack.yml votingapp 
+again so it will update. 
+
+clean up the stack service (web application)
+
+run   $ docker stack rm <theDeployName_youGave>
+
+
