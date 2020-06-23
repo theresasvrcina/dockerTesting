@@ -1,0 +1,119 @@
+# For the "docker stack" command to work (deploy) properly, you will need version 3 or higher of the YAML file
+
+version: "3"
+services: 
+
+    # Service one Redis - a database storing application cache --this case our votes (for fast response time)
+
+    redis_service: # This is the service name, give it a name 
+        image: redis:alpine    # The image found in hub.docker.com (container registry) aka container library 
+        ports:
+            - "6379"
+        networks: 
+            - frontend  # Give your network overlay a name
+        deploy:     # This is where docker stack deploy orchestrates 
+          replicas: 2   # Declare how many replicas of the service (this case redis) you would like 
+          update_config:   # This is when your stack services need updates, configure here how you want to roll it out
+            parallelism: 2   # How many to roll out after the update
+            delay: 10s   # How much delay between each service rollout
+          restart_policy:
+            condition: on-failure # If the container fails, automatically restart it (restart policy)
+
+    # Second service 
+
+    database_service: # Give the service a name 
+        image: postgres:9.4    # The image from the container library (registry)
+        volumes:
+            # The database folder name you give it : where in container to mount the volume 
+            - "db-data:/var/lib/postgresql/data"
+        networks:
+            - backend # Call the network what you would like, in this case this is backend service 
+        environment:  # Add your authentication variables 
+            - POSTGRES_HOST_AUTH_METHOD=trust
+        deploy: 
+            placement: 
+               constraints: [node.role == manager]   # Label the container object, give it the role in Docker Swarm
+    
+    # Third service 
+
+    vote_app:
+        image: bretfisher/examplevotingapp_vote  # This is the container image from container registry (hub.docker.com)
+        ports:
+            - 5000:80
+        networks:
+            - frontend    # Which network is it communicating with (overlayed with)
+        depends_on:
+            - redis_service    # Declare what the dependent service is of this service (this case voting app image)
+        deploy:
+            replicas: 2
+            update_config:
+                parallelism: 2
+            restart_policy: 
+                condition: on-failure
+    
+
+    # Declare the 4th service 
+    results: 
+        image: bretfisher/examplevotingapp_result
+        ports:
+            - 5001:80  # localhost port : container port
+        networks:
+            - backend # initialize the overlay network for the results pass through
+        depends_on:
+            - database_service
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2
+                delay: 10s # Delay when to go live (spin up container service)
+            restart_policy:
+                condition: on-failure
+    
+    # Declare another service and program it's key value pairs 
+
+    worker:
+        image: bretfisher/examplevotingapp_worker:java # Image from container registry
+        networks:
+            - frontend   # What are the overlaid networks to have the worker container work with
+            - backend
+        depends_on:
+            - database_service
+            - redis_service
+        deploy: 
+            mode: replicated
+            replicas: 1
+            labels: [APP=VOTING]
+            restart_policy:
+                condition: on-failure
+                delay: 10s
+                max_attempts: 3 # If it fails, it will only max attempt to restart 3 times
+                window: 120s
+            placement:
+                constraints: [node.role == manager]
+    
+
+    # Declare and initialize the 5th service for this stack
+
+    visualizer: 
+        image: dockersamples/visualizer
+        ports:
+            - "8080:8080"
+        stop_grace_period: 1m30s
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"  # Named volume : Where to mount volume in given container path
+        deploy:
+            placement:
+                constraints: [node.role == manager]  # Give this service the manager role to manage configuration access
+    
+
+# Remember, Docker YAML files need services:       networks:      and       volumes: 
+networks:
+    frontend:
+    backend: 
+
+volumes: 
+    db-data:   #The volumes from the services will be stored in this folder from the swarm  
+
+            
+
+

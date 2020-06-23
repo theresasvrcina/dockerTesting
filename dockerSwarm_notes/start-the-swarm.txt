@@ -1,0 +1,48 @@
+Create the nodes or instances 
+
+Each instance needs Docker installed. 
+
+Go to an instance and run 
+
+Let's say you are on an instance (like node1) run the below command. 
+
+$ docker swarm init --advertise-addr <public IP address from hosting service) (example Digital Ocean)
+
+The output after the above command will give a join string that you will need to copy and run in the other
+instances that will join the swarm as a WORKER node.
+
+The instance that ran swarm init (initialize) is the manager after.
+
+Only the manager instance, can update roles of the other containers
+
+$ docker node update --role manager node2 
+
+The above command ddone on the manager node (node1) now updated node2 to be another manager node. 
+
+After updating worker nodes to manager nodes, note that only one leader node is at all time. 
+
+Another way to add a manager node....
+
+To add a manager to the swarm you will need to clarify on leader node command line
+
+$ docker swarm join-token manager
+
+The output of the above command will be the string to run on another instance's command line that will be added to the
+swarm as a MANAGER node. 
+
+Once on the leader node 
+deploy your stack YAML file 
+
+$ docker stack deploy -c <stackYAMLfile> <giveItA_name>
+
+Check the services to make sure it's all running...
+
+$ docker stack services <theName_yougave>
+
+Clean up the services
+
+$ docker stack rm <theName_yougave>
+
+Kill the instances and remove the instances to clean up after playing with Docker. 
+
+
