@@ -1,0 +1,44 @@
+Similar to docker run command, but things will change in next software updates. (1.18 is a newer version to use)
+
+$ kubectl run <give it a name> --image <offical or custom image name>
+
+an example is 
+
+$ kubectl run pingpong --image alpine ping 1.1.1.1
+
+
+Then to see the pod run...
+
+$ kubectl get all 
+
+
+Background story: Inside the pod is running a container 
+which is running the above ping command using an alpine linux 
+image. 
+
+
+Things changed is using
+
+$ kubectl create 
+
+rather than  $ kubectl run
+
+Both generate a single pod, but create is used with 1.18 K8's 
+
+
+To view the logs of the above pingpong pod type the below command
+
+$ kubectl logs <type>/<pod name>
+
+For this example...since I deployed it through the run command
+it will be under the deploy folder...
+
+$ kubectl logs deploy/pingpong
+
+
+If you wanted more replicas of the pod...
+
+$ kubectl scale deploy/pingpong --replicas 3
+
+
+
