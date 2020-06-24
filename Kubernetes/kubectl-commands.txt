@@ -1,0 +1,33 @@
+
+
+Once having Kubernetes installed on a machine.
+
+Run the below command.
+
+$ kubectl get nodes 
+
+Learn about the node run the below command.
+
+$ kubectl describe node/<node_name>
+
+The node_name will be replaced with a value from the Name varaible after running $ kubectl get nodes
+
+I like to use Docker Desktop so my node is docker-desktop
+
+$ kubectl describe node/docker-desktop 
+
+
+Further diving deep into the node use...
+
+$ kubectl explain node 
+
+To see the objects tied under the node
+
+$ kubectl explain node.spec
+
+$ kubectl get services
+
+
+To know what API resources you can use run the below command.
+
+$ kubectl api-resources
