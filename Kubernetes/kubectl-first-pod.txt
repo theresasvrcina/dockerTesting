@@ -19,7 +19,7 @@ image.
 
 Things changed is using
 
-$ kubectl create 
+$ kubectl create deployment <give it a name> --image=<path to image in container registry>
 
 rather than  $ kubectl run
 
