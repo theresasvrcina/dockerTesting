@@ -1,0 +1,174 @@
+# This Kubernetes YAML file incorporates the DockerCoins example from Docker Captain Bret Fisher
+# The YAML file will consist of manifests separated by the API key words that Kubernetes uses 
+
+# Between each resource manifest there must be --- inserted. 
+
+
+---
+    apiVersion: apps/v1
+    kind: Deployment  # capitalized, and then camel hump notation, for declaring the kind value pairing
+    metadata:
+      labels:
+        app: hasher
+      name: hasher  # Give it a name 
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: hasher
+      template:
+        metadata:
+          labels:
+            app: hasher
+        spec:
+          containers:
+          - image: dockercoins/hasher:v0.1  # The image from the container registry, this case hub.docker.com
+            name: hasher
+    ---
+    apiVersion: v1  # APIGROUP   $ kubectl api-versions is the command to use
+    kind: Service  # What resource will be made   # $ kubectl api-resources has more detail 
+    metadata:
+      labels:
+        app: hasher
+      name: hasher
+    spec:
+      ports:
+      - port: 80
+        protocol: TCP
+        targetPort: 80
+      selector:
+        app: hasher
+      type: ClusterIP
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: redis
+      name: redis
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: redis
+      template:
+        metadata:
+          labels:
+            app: redis
+        spec:
+          containers:
+          - image: redis # The image from the container registry, this case hub.docker.com
+            name: redis
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: redis
+      name: redis
+    spec:
+      ports:
+      - port: 6379
+        protocol: TCP
+        targetPort: 6379
+      selector:
+        app: redis
+      type: ClusterIP
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: rng
+      name: rng
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: rng
+      template:
+        metadata:
+          labels:
+            app: rng
+        spec:
+          containers:
+          - image: dockercoins/rng:v0.1  # The image from the container registry, this case hub.docker.com
+            name: rng
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: rng
+      name: rng
+    spec:
+      ports:
+      - port: 80
+        protocol: TCP
+        targetPort: 80
+      selector:   # Use the selector app name to update, fix the service 
+        app: rng
+      type: ClusterIP
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: webui
+      name: webui
+    spec:
+      replicas: 1  # The number of replicas of the deployment resource
+      selector:
+        matchLabels:
+          app: webui
+      template: # The pods within the replicas of the Deployment resource 
+        metadata:
+          labels:
+            app: webui
+        spec:
+          containers:
+          - image: dockercoins/webui:v0.1  # The image from the container registry, this case hub.docker.com
+            name: webui
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: webui
+      name: webui
+    spec:
+      ports:
+      - port: 80
+        protocol: TCP
+        targetPort: 80
+      selector:
+        app: webui
+      type: NodePort
+    ---
+    apiVersion: apps/v1
+    kind: Deployment  # The deployment resource 
+    metadata:
+      labels:
+        app: worker
+      name: worker
+    spec:
+      replicas: 10  # The number of replicas of the deployment resource 
+      selector: # The selector key is what is used to filter to find the pod you are looking for. 
+        matchLabels:
+          app: worker
+          # If using enabled key value pairing, must pair with string "yes" with string quotes 
+      template: # The template shows the template of new pods that are created, the pod would have the template metadata 
+        metadata:
+          labels: 
+            app: worker
+        spec:
+          containers:
+          - image: dockercoins/worker:v0.1  # The image from the container registry, this case hub.docker.com
+            name: worker
+    
+
+  #  Use $ kubectl explain pod to help buid Kubernetes Yaml file
+  # kubectl pod.spec to look at further sub fields 
+  # kubectl pod.spec recursive  (outputs the heirarchle format to work with)
+
+  # to run the YAML $ kubectl apply -f <the YAML file>
