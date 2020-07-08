@@ -2,6 +2,10 @@ Create the nodes or instances
 
 Each instance needs Docker installed. 
 
+$ docker info
+
+The output from the above command will express if Swarm is active or inactive. By default after having Docker installed on a machine, Docker has Swarm as inactive. 
+
 Go to an instance and run 
 
 Let's say you are on an instance (like node1) run the below command. 
@@ -27,8 +31,8 @@ To add a manager to the swarm you will need to clarify on leader node command li
 
 $ docker swarm join-token manager
 
-The output of the above command will be the string to run on another instance's command line that will be added to the
-swarm as a MANAGER node. 
+# The output of the above command will be the string to run on another instance's command line that will be   added to the
+  swarm as a MANAGER node. 
 
 Once on the leader node 
 deploy your stack YAML file 

@@ -1,0 +1,51 @@
+After making a Docker Swarm cluster
+
+run 
+
+$ docker node ls 
+
+This will list the machines/hosts (nodes) in current Docker Swarm.
+
+$ docker node --help 
+
+The above command will list the docker node <flags> that a Docker orchestrator can work with. 
+
+The list of docker node <flags> for example "promote" or "update" help to promote and make manager nodes or update to change nodes to worker nodes. 
+
+
+$ docker swarm --help 
+
+Also will list the flags that an Orchestrator can use for example "join", "initialize" or "leave".  Those can be used for nodes within a swarm. 
+
+To work with a cluster (swarm)
+
+$ docker service --help
+
+The above command will list how to work with the activities a swarm has or can implement to have. 
+
+
+Once services are created or docker stacks are deployed. 
+
+$ docker service ls <name_or_ID_of_Service>
+
+This will show the containers running for what was created or deployed.
+
+If wanting more creations or deployments of the same service
+
+scale it up by running
+
+$ docker service update <name_or_ID_of_Service> --replicas 5
+
+Replace the above number with the amount wanting. 
+
+Then to check if the replicated creations or deployments are working run
+
+$ docker service ps <name_or_ID_of_Service>
+
+$ docker update --help 
+
+The above command will output how to update resources in containers for memory, cpu, and more. 
+
+$ docker service update --help 
+
+The above command will give alot more options to work with as well. 
