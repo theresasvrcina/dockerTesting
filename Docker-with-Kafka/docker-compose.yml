@@ -1,0 +1,58 @@
+# @author: Stephane Maarek of compose file 
+# @author Marios Andreopoulos for the landoop user interface 
+# 
+#
+# This compose file once composed up, will visually show the connections from data sources an
+# Allows you to connect and import data into a same area (sink) when configured to do so. 
+# Kafka connect, is a set of connectors (the existing databases that you connect to) 
+#  gets put into the choice, you would like, like elasticsearch in this example ?
+# I might not be understanding the lecture correctly....
+#  You have to configure the sinks, where Kafka will put the data, this example uses Elasticsearch
+# Standalone mode: not for production 
+
+# In his tutorial he is using the below docker-compose yaml file 
+
+version: '3'
+
+services: 
+
+    # 1st service
+    # This will create a Kafka cluster
+    kafka-cluster: # Name the service
+      image: landoop/fast-data-dev:latest  # Pull the image from this author
+      environment: 
+        ADV_HOST: 127.0.0.1  # Local host to check Docker using Mac, or change to 192.168.99.100 if using Docker Toolbox
+        RUNTESTS: 0  # 0 means to disable tests run, this allows the cluster to start up faster (without tests)
+      ports:
+        - 2181:2181                   # Zookeeper
+        - 3030:3030                   # Landoop UI
+        - 8081-8083:8081-8083         # REST proxy, schema Registry, Kafka Connect ports
+        - 9581-9585:9581-9585         # JMX Ports
+        - 9092:9092                   # Kafka Broker
+    
+    # 2nd Service
+    # Elasticsearch will be used in this example 
+    # This configuration allows us to start and use elasticsearch
+    elasticsearch: 
+        image: nshou/elasticsearch-kibana:latest
+        ports: 
+            - 9200:9200    # ElasticSearch port 
+            - 5600:5600    # Kibana port 
+    
+    # 3rd Service
+    # The example also uses elasticsearch 
+    # This configuration allows us to start and use posrtgres
+
+    postgres:  # Name the service
+      image:postgres:9.5-alpine 
+      environment: 
+        # Might have to use environment variable to access postgres in the latest version??
+        POSTGRES_USER: postgres   # change or use secrets from docker's features 
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+      ports:
+        - 5432:5432  # Postgres port
+
+
+# to run this compose file: use " $ docker-compose up <give-it-a-name>"
+# clean up the services and volumes after running the cluster (compose file)

@@ -1,0 +1,6 @@
+Practicing practices from O'Reily Apache Kafka Series - Kafka Connect Hands-on Learning by
+Stéphane Maarek.
+
+Use the Docker image for Kafka that he recommends and from his github account will be the docker-compose 
+instuctions that he uses to run the services of the connectors. 
+
