@@ -1,0 +1,15 @@
+Need to know Kafka Connect Concepts
+
+Then will be using, docker-compose to run a Kafka cluster.
+
+Review Java, will be importing Kafka in Java source code. 
+
+Kafka Connect High level topics below
+
+Source connectors - to get data from common data sources
+
+Sink connectors - to publish that data in common data stores 
+
+each connector is a Java jar file - re-usable code 
+
+Use Gitlab to work with container registry 
