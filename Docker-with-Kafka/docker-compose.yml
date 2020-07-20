@@ -44,15 +44,14 @@ services:
     # This configuration allows us to start and use posrtgres
 
     postgres:  # Name the service
-      image:postgres:9.5-alpine 
+      image: postgres:12.3-alpine 
       environment: 
-        # Might have to use environment variable to access postgres in the latest version??
-        POSTGRES_USER: postgres   # change or use secrets from docker's features 
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: postgres
+        - POSTGRES_PASSWORD=
       ports:
         - 5432:5432  # Postgres port
 
 
-# to run this compose file: use " $ docker-compose up <give-it-a-name>"
+# to run this compose file: use " $ docker-compose up <the service name you gave it in this YAML file"
 # clean up the services and volumes after running the cluster (compose file)
+
+# run in play-with-docker.com
