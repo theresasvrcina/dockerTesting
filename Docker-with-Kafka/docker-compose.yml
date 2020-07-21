@@ -1,27 +1,30 @@
 # @author: Stephane Maarek of compose file 
 # @author Marios Andreopoulos for the landoop user interface 
-# 
+# @edited_by Anna Bear
 #
-# This compose file once composed up, will visually show the connections from data sources an
-# Allows you to connect and import data into a same area (sink) when configured to do so. 
+# This compose file once composed up, will visually show the connections from data sources and it
+# allows us to connect and import data into a same area (sink) when configured to do so. 
 # Kafka connect, is a set of connectors (the existing databases that you connect to) 
-#  gets put into the choice, you would like, like elasticsearch in this example ?
-# I might not be understanding the lecture correctly....
+#  then gets put into the choice, you would like, like elasticsearch in this example 
+#  
 #  You have to configure the sinks, where Kafka will put the data, this example uses Elasticsearch
-# Standalone mode: not for production 
+# 
 
 # In his tutorial he is using the below docker-compose yaml file 
 
-version: '3'
+# If using version 3 change the environment variable declarations to the newer style of uploading those variables
+version: '2'
 
 services: 
 
     # 1st service
     # This will create a Kafka cluster
     kafka-cluster: # Name the service
-      image: landoop/fast-data-dev:latest  # Pull the image from this author
+      image: landoop/fast-data-dev:cp3.3.0  # Pull the image from this author
       environment: 
-        ADV_HOST: 127.0.0.1  # Local host to check Docker using Mac, or change to 192.168.99.100 if using Docker Toolbox
+        # The public IP address from the cloud provider for the instance hosting the service 
+        # or use localhost 127.0.0.1
+        ADV_HOST: 127.0.0.1 # Local host to check Docker using Mac, or change to 192.168.99.100 if using Docker Toolbox
         RUNTESTS: 0  # 0 means to disable tests run, this allows the cluster to start up faster (without tests)
       ports:
         - 2181:2181                   # Zookeeper
@@ -34,24 +37,30 @@ services:
     # Elasticsearch will be used in this example 
     # This configuration allows us to start and use elasticsearch
     elasticsearch: 
-        image: nshou/elasticsearch-kibana:latest
+        image: itzg/elasticsearch:2.4.3
+        environment:
+          PLUGINS: appbaseio/dejavu
+          OPTS: -Dindex.number_of_shards=1 -Dindex.number_of_replicas=0
         ports: 
             - 9200:9200    # ElasticSearch port 
-            - 5600:5600    # Kibana port 
     
     # 3rd Service
     # The example also uses elasticsearch 
     # This configuration allows us to start and use posrtgres
 
     postgres:  # Name the service
-      image: postgres:12.3-alpine 
-      environment: 
-        - POSTGRES_PASSWORD=
+      # Might have to change the image of postgres and version of yaml file, postgres:12.3-alpine 
+      image: postgres:9.5-alpine
+      environment: # This is an older way of using Postgres envrironment variables
+        # - POSTGRES_PASSWORD= (preferred newer version's way)
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
       ports:
         - 5432:5432  # Postgres port
 
 
 # to run this compose file: use " $ docker-compose up <the service name you gave it in this YAML file"
-# clean up the services and volumes after running the cluster (compose file)
+# clean up the services and volumes after running the cluster services from this compose file
 
 # run in play-with-docker.com
