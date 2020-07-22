@@ -14,6 +14,7 @@ docker-compose up <name-of-you-kafka-cluster>
 # Next is to mount files needed to create the connection and data source file. 
 # Also, create a container, get in interaction mode with the container with a bash terminal inside.
 # To do all of this run the below command. 
+# Replace "landoop/fast-data-dev" with what you called your container or image at build time. 
 
 docker run --rm -it -v "$(pwd)":/tutorial --net=host landoop/fast-data-dev bash
 
