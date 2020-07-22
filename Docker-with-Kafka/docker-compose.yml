@@ -1,41 +1,38 @@
-# @author: Stephane Maarek of compose file 
-# @author Marios Andreopoulos for the landoop user interface 
-# @edited_by Anna Bear
+# This docker-compose file once composed up, will visually show the connections from the data sources (connections).
+# Kafka connect, has the ability to connect to existing databases that you would like to connect to.
 #
-# This compose file once composed up, will visually show the connections from data sources and it
-# allows us to connect and import data into a same area (sink) when configured to do so. 
-# Kafka connect, is a set of connectors (the existing databases that you connect to) 
-#  then gets put into the choice, you would like, like elasticsearch in this example 
-#  
-#  You have to configure the sinks, where Kafka will put the data, this example uses Elasticsearch
-# 
+# @author: Stephane Maarek of the original compose file 
+# @author Marios Andreopoulos of the landoop/fast-data-dev image (Dockerfile)
+# @edited_by Anna Bear
 
-# In his tutorial he is using the below docker-compose yaml file 
 
-# If using version 3 change the environment variable declarations to the newer style of uploading those variables
+# If using version 3 of this YAML file change the environment 
+# variable declarations that will be affected by the version change.
 version: '2'
 
 services: 
 
     # 1st service
-    # This will create a Kafka cluster
-    kafka-cluster: # Name the service
-      image: landoop/fast-data-dev:cp3.3.0  # Pull the image from this author
+    # Name your Kafka cluster service
+    kafka-cluster:
+      image: landoop/fast-data-dev:cp3.3.0  # Pull Dockerfile image from Author's image registry file path
       environment: 
-        # The public IP address from the cloud provider for the instance hosting the service 
-        # or use localhost 127.0.0.1
-        ADV_HOST: 127.0.0.1 # Local host to check Docker using Mac, or change to 192.168.99.100 if using Docker Toolbox
-        RUNTESTS: 0  # 0 means to disable tests run, this allows the cluster to start up faster (without tests)
+        # The below IP can be replaced with the public IP address from the cloud provider of the instance 
+        # that will host the Kafka Cluster stand alone connection. 
+        # This example is using localhost 127.0.0.1
+        ADV_HOST: 127.0.0.1
+        # 0 means to disables unit tests to run. Disabling the tests allows the cluster to start up quicker.
+        RUNTESTS: 0
       ports:
-        - 2181:2181                   # Zookeeper
-        - 3030:3030                   # Landoop UI
-        - 8081-8083:8081-8083         # REST proxy, schema Registry, Kafka Connect ports
+        - 2181:2181                   # Zookeeper Port
+        - 3030:3030                   # Landoop UI Port
+        - 8081-8083:8081-8083         # REST proxy, schema Registry, Kafka Connect Ports
         - 9581-9585:9581-9585         # JMX Ports
-        - 9092:9092                   # Kafka Broker
+        - 9092:9092                   # Kafka Broker Port
     
     # 2nd Service
-    # Elasticsearch will be used in this example 
-    # This configuration allows us to start and use elasticsearch
+    # This example uses Elasticsearch. In order to use and start ElasticSearch,
+    # we must configure it here below by adding the image (Dockerfile), port, etc. 
     elasticsearch: 
         image: itzg/elasticsearch:2.4.3
         environment:
@@ -45,14 +42,15 @@ services:
             - 9200:9200    # ElasticSearch port 
     
     # 3rd Service
-    # The example also uses elasticsearch 
-    # This configuration allows us to start and use posrtgres
-
+    # The example also uses Postgres
+    # The below configuration allows us to start and use posrtgres. (Older version/way to configure is below)
     postgres:  # Name the service
-      # Might have to change the image of postgres and version of yaml file, postgres:12.3-alpine 
+      # WARNING: If you change the version, for eaxmple to postgres:12.3-alpine 
+      # you will have to use the newer way to add the database environment variables. 
+      # This change is also in affect if you change the version of this YAML file, for example version 3 YAML. 
       image: postgres:9.5-alpine
-      environment: # This is an older way of using Postgres envrironment variables
-        # - POSTGRES_PASSWORD= (preferred newer version's way)
+      environment: 
+        # - POSTGRES_PASSWORD= (Newer version's way...)
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
@@ -60,7 +58,10 @@ services:
         - 5432:5432  # Postgres port
 
 
-# to run this compose file: use " $ docker-compose up <the service name you gave it in this YAML file"
-# clean up the services and volumes after running the cluster services from this compose file
+# Note: Run this compose file: by running this command " $ docker-compose up <the service name you gave it in this YAML file"
+# Note: Always clean up the services and volumes after running the cluster services from this compose file.
 
-# run in play-with-docker.com
+# Envrionemnt set up: You can run this in play-with-docker.com 
+# or within an instance, cloud provider of your choice, using Ubuntu, CentOS,or any other OS of your choice.
+# Will need Docker installed, and docker-compose. 
+
